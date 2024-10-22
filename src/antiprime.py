@@ -1,46 +1,47 @@
 ## ADD WHATEVER ARGUMENTS ARE NECESSARY TO THE MAIN FUNCTION
 ## IN THE SAME ORDER AS THE ARGUMENTS ARE TAKEN FROM THE
 ## COMMAND LINE SPECIFIED BELOW
+import sys
 def main() :
-	x= int(input("Enter a positive integer number: "))
-	i=1
-	g=0
-	sum1=0
-	y=x-1
-	## YOU CODE SHOULD START HERE AST THE SAME
-	## IDENTATION AS THIS COMMENT
-	while i<=x:
-		if x% i==0:
-			sum1= sum1+1
-		i=i+1
-	while y>0:
-		i=1
-		sum2=0
-		while i<=y:
-			if y%i==0:
-				sum2=sum2 +1
-			i=i+1
-		if sum2>=sum1:
-			g=2
-		y=y-1
-	if g == 2:
-		print("not anti-prime")
-	else:
-		print('anti-prime')
+	# Nested function to calculate if the number is anti-prime
+	def antiprimecalc(num):
+		divnum = 0  # Count of divisors of the given number
+		divi = 0  # Count of divisors for numbers smaller than num
+        
+          # Count the divisors of num
+		for i in range(1, num + 1):
+			if num % i == 0:
+				divnum += 1
 
+        # Compare divisors of all numbers smaller than num
+		for i in range(1, num):
+			divi = 0
+			for j in range(1, i + 1):
+				if i % j == 0:
+					divi += 1
+            # If any smaller number has more or equal divisors, return "not anti-prime"
+			if divi >= divnum:
+				return "not anti-prime"
+        
+		return "anti-prime"
 
-	## THE LAST LINES OF YOUR CODE SHOULD EITHER
-	## RETURN THE VALUE "anti-prime" or "not anti-prime"
-	## REPLACE THE FOLLOWING LINE BY WHATEVER LINES
-	## OF CODE ALLOW THIS FUNCTION TO RETURN THE VALUE
-	## "anti-prime" or "not anti-prime
+    # Ensure we have exactly one command-line argument and it's a valid integer
+	if len(sys.argv) != 2:
+		return f"error: {sys.argv[0]} <number>"
 
-## DO NOT REMOVE THIS LINE BELOW
-if __name__ == "__main__" :
+	if not sys.argv[1].isdigit() or int(sys.argv[1]) <= 0:
+		return "Please provide a positive integer greater than 0."
+
+	num = int(sys.argv[1])
+	result = antiprimecalc(num)
+	return result
+
+# Main logic to run the program
+if __name__ == "__main__":
+	print(main())
 
 	## MODIFY THE LINE BELOW AND ADD BEFORE WHATEVER LINES ARE NECESSARY
 	## TO RUN THIS PROGRAM AS, FOR INSTANCE:
 	## $ python antiprime.py 6
 	## WHERE THE FIRST ARGUMENT IS A POSITIVE INTEGER NUMBER FOR WHICH
 	## YOU WANT TO FIGURE OUT WHETHER IS ANTI-PRIME OR NOT
-	print(main())
